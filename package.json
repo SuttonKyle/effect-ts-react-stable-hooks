@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/SuttonKyle/effect-ts-react-stable-hooks#readme",
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^2.9.0",
+    "@stylistic/eslint-plugin": "~2.9.0",
     "@testing-library/react-hooks": "~7.0.2",
     "@types/jest": "~29.5.13",
     "@types/react": "^16.8.0",
