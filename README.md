@@ -9,7 +9,7 @@ Stable hooks use effect-ts equivalence functions instead of React's shallow (ref
 
 By default React will perform a JavaScript object reference comparison of two objects, otherwise known as shallow object comparison, which results in extra re-renders on “unchanged” values for effect-ts data types.
 
-For example: Take an fp-ts type such as `Option` who’s underlying data structure is is `{_tag: "Some", value: 1}`. Compared with another `Option` who's value is also `{_tag: "Some", value: 1}`, they will be considered different objects with JavaScript object reference comparison since `O.some(1) !== O.some(1)`.
+For example: Take an effect type such as `Option` who’s underlying data structure is is `{_tag: "Some", value: 1}`. Compared with another `Option` who's value is also `{_tag: "Some", value: 1}`, they will be considered different objects with JavaScript object reference comparison since `O.some(1) !== O.some(1)`.
 
 However, an equivalence function can dive down into the underlying `value` type and prove its equality. Given that, an equivalence function such as `O.getEquivalence(Eq.number)` can prove that `O.getEquivalence(Eq.number)(O.some(1), O.some(1)) === true`. Using these stable hooks instead of the basic react hooks will result in fewer unnecessary re-renders when using effect-ts data types.
 
