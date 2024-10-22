@@ -1,62 +1,62 @@
-# fp-ts-react-stable-hooks
-**Reduce unnecessary rerenders when using fp-ts data types with React hooks.**
+# effect-ts-react-stable-hooks
+**An effect-ts port of [fp-ts-react-stable-hooks](https://github.com/mblink/fp-ts-react-stable-hooks). Reduce unnecessary rerenders when using effect data types with React hooks.**
 
-![license](https://img.shields.io/npm/l/fp-ts-react-stable-hooks)
-![npm](https://img.shields.io/npm/v/fp-ts-react-stable-hooks)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/fp-ts-react-stable-hooks)
+![license](https://img.shields.io/npm/l/effect-ts-react-stable-hooks)
+![npm](https://img.shields.io/npm/v/effect-ts-react-stable-hooks)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/effect-ts-react-stable-hooks)
 
-Stable hooks use fp-ts equality functions instead of React's shallow (reference) object comparison.
+Stable hooks use effect-ts equivalence functions instead of React's shallow (reference) object comparison.
 
-By default React will perform a JavaScript object reference comparison of two objects, otherwise known as shallow object comparison, which results in extra re-renders on “unchanged” values for fp-ts data types.
+By default React will perform a JavaScript object reference comparison of two objects, otherwise known as shallow object comparison, which results in extra re-renders on “unchanged” values for effect-ts data types.
 
 For example: Take an fp-ts type such as `Option` who’s underlying data structure is is `{_tag: "Some", value: 1}`. Compared with another `Option` who's value is also `{_tag: "Some", value: 1}`, they will be considered different objects with JavaScript object reference comparison since `O.some(1) !== O.some(1)`.
 
-However, an equality function can dive down into the underlying `value` type and prove its equality. Given that, an equality function such as `O.getEq(Eq.eqNumber)` can prove that `O.getEq(Eq.eqNumber).equals(O.some(1), O.some(1)) === true`. Using these stable hooks instead of the basic react hooks will result in fewer unnecessary re-renders when using fp-ts data types.
+However, an equivalence function can dive down into the underlying `value` type and prove its equality. Given that, an equivalence function such as `O.getEquivalence(Eq.number)` can prove that `O.getEquivalence(Eq.number)(O.some(1), O.some(1)) === true`. Using these stable hooks instead of the basic react hooks will result in fewer unnecessary re-renders when using effect-ts data types.
 
 ## Installation
 
 ```
-npm install fp-ts-react-stable-hooks
+npm install effect-ts-react-stable-hooks
 ```
 
 ## Usage
 
 Simple example `useStableO` with `Option` helper equality function
 ```typescript
-import * as Eq from "fp-ts/Eq";
-import * as O from "fp-ts/Option";
-import { useStableO } from "fp-ts-react-stable-hooks";
+import * as Eq from "effect/Equivalence";
+import * as O from "effect/Option";
+import { useStableO } from "effect-ts-react-stable-hooks";
 
-// Equality function defaults to Eq.eqStrict so there is no need to provide
+// Equality function defaults to Eq.strict() so there is no need to provide
 // it for primitive data types such as string, number, or boolean
 const [data, setData] = useStableO(O.some("foobar"));
 ```
 
 Complex example `useStable` with equality function
 ```typescript
-import * as Eq from "fp-ts/Eq";
-import * as O from "fp-ts/Option";
-import { useStable } from "fp-ts-react-stable-hooks";
+import * as Eq from "effect/Equivalence";
+import * as O from "effect/Option";
+import { useStable } from "effect-ts-react-stable-hooks";
 
 const [data, setData] = useStable(
   O.some({foo: "oof", bar: 1}),
-  O.getEq(Eq.eqStruct({foo: Eq.eqString, bar: Eq.eqNumber}))
+  O.getEquivalence(Eq.struct({foo: Eq.string, bar: Eq.number}))
 );
 ```
 
 Example `useEffect` with equality function
 
 ```typescript
-import * as Eq from "fp-ts/Eq";
-import * as O from "fp-ts/Option";
-import { useStableEffect } from "fp-ts-react-stable-hooks";
+import * as Eq from "effect/Equivalence";
+import * as O from "effect/Option";
+import { useStableEffect } from "effect-ts-react-stable-hooks";
 
 const data: O.Option<string> = O.some("foobar");
 
 useStableEffect(() => {
   // Typical react useEffect function goes in here
   ...
-}, [data], Eq.tuple(O.getEq(Eq.eqStrict)));
+}, [data], Eq.tuple(O.getEquivalence(Eq.strict())));
 ```
 
 ## Debugging Your Hooks
